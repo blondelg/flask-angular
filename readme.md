@@ -2,7 +2,7 @@
 
 
 ### Backend
-#### Virtual environnement and dependencies
+#### Virtual environnement and dependencies (from .../backend)
 ```
 # Create virtuale environment for backend
 python3 -m venv backend/venv
