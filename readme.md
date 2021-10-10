@@ -14,7 +14,7 @@ source backend/venv/bin/activate
 pip install -r requirements.txt
 ```
 
-#### Database
+#### Database (from .../backend)
 ```
 # Create migration direcory
 flask db init
@@ -29,8 +29,13 @@ flask db upgrade
 flask db downgrade
 ```
 
-#### Other
+#### Start and shell (from .../backend)
 ```
+# Run server
+export FLASK_APP=app
+export FLASK_ENV=development
+flask run
+
 # Run shell
 flask shell
 ```
