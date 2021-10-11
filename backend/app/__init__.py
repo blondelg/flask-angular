@@ -5,6 +5,9 @@ from flask_restful import Resource, Api
 from app.config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from datetime import datetime, timedelta
+import jwt
+
 
 from app.utils import token_required
 
@@ -28,7 +31,7 @@ class Login(Resource):
         # creates dictionary of form data
         auth = request.form
 
-        if not auth or not auth.get('email') or not auth.get('password'):
+        if not auth or not auth.get('username') or not auth.get('password'):
             # returns 401 if any email or / and password is missing
             return make_response(
                 'Could not verify',
@@ -36,7 +39,7 @@ class Login(Resource):
                 {'WWW-Authenticate': 'Basic realm ="Login required !!"'}
             )
 
-        user = User.query.filter_by(email=auth.get('email')).first()
+        user = models.User.query.filter_by(username=auth.get('username')).first()
 
         if not user:
             # returns 401 if user does not exist
@@ -46,7 +49,7 @@ class Login(Resource):
                 {'WWW-Authenticate': 'Basic realm ="User does not exist !!"'}
             )
 
-        if check_password_hash(user.password, auth.get('password')):
+        if check_password_hash(user.password_hash, auth.get('password')):
             # generates the JWT Token
             token = jwt.encode({
                 'public_id': user.public_id,
@@ -60,7 +63,6 @@ class Login(Resource):
             403,
             {'WWW-Authenticate': 'Basic realm ="Wrong Password !!"'}
         )
-
 
 
 # signup route
@@ -96,6 +98,7 @@ class Signup(Resource):
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(Signup, '/signup')
+api.add_resource(Login, '/login')
 
 
 @app.shell_context_processor
