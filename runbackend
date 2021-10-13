@@ -1,2 +1,7 @@
 #!/bin/bash
+export FLASK_APP=app
+export FLASK_ENV=development
+source backend/venv/bin/activate
+cd backend
+flask run
 

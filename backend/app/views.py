@@ -1,9 +1,10 @@
 from app import models
 from app import app
+from app.db import get_db
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, request
-from flask_restful import Resource, Api
+from flask_restful import Resource
 from datetime import datetime, timedelta
 import jwt
 
@@ -77,6 +78,7 @@ class Signup(Resource):
                 password_hash=generate_password_hash(password)
             )
             # insert user
+            db = get_db()
             db.session.add(user)
             db.session.commit()
 
