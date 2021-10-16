@@ -1,5 +1,5 @@
 from app import models
-from app import app
+from app import app, db
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, request
@@ -43,10 +43,10 @@ class Login(Resource):
             # generates the JWT Token
             token = jwt.encode({
                 'public_id': user.public_id,
-                'exp': datetime.utcnow() + timedelta(minutes=30)
+                'exp': datetime.utcnow() + timedelta(minutes=app.config['JWT_EXPIRATION_TIME'])
             }, app.config['SECRET_KEY'])
 
-            return make_response(jsonify({'token': token.decode('UTF-8')}), 201)
+            return make_response(jsonify({'token': token}), 201)
         # returns 403 if password is wrong
         return make_response(
             'Could not verify',
@@ -77,7 +77,6 @@ class Signup(Resource):
                 password_hash=generate_password_hash(password)
             )
             # insert user
-            db = get_db()
             db.session.add(user)
             db.session.commit()
 
