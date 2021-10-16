@@ -1,7 +1,22 @@
 #!/bin/bash
+
+
 export FLASK_APP=app
 export FLASK_ENV=development
 source backend/venv/bin/activate
 cd backend
-flask run
+
+# Command dictionnary
+declare -A commands
+commands['']="run flask"
+commands['shell']="flask shell"
+
+
+if [ -v commands[$1] ]; 
+then
+    ${commands[$1]}
+else
+    echo ":   run server"
+fi
+
 

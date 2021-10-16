@@ -1,10 +1,13 @@
+import click
 from flask import Flask
 from app.config import Config
-from app.db import get_db
 from flask_migrate import Migrate
+from flask.cli import with_appcontext
+from flask_sqlalchemy import SQLAlchemy
 
 
-db = get_db()
+
+db = SQLAlchemy()
 migrate = Migrate()
 
 
@@ -18,8 +21,22 @@ def create_app(config_class=Config):
     return app
 
 
+def init_db():
+    db.drop_all()
+    db.create_all()
+
+
+@click.command("init-db")
+@with_appcontext
+def init_db_command():
+    """Clear existing data and create new tables."""
+    init_db()
+    click.echo("Initialized the database.")
+
+
 app = create_app()
 if __name__ == "__main__":
+    print('RUN')
     app = create_app()
     app.run(host='0.0.0.0')
 
