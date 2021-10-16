@@ -8,7 +8,7 @@ cd backend
 
 # Command dictionnary
 declare -A commands
-commands['']="run flask"
+commands['run']="flask run"
 commands['shell']="flask shell"
 
 
@@ -16,7 +16,8 @@ if [ -v commands[$1] ];
 then
     ${commands[$1]}
 else
-    echo ":   run server"
+    echo "run:     run server"
+    echo "shell:   run shell"
 fi
 
 
