@@ -10,6 +10,7 @@ cd backend
 declare -A commands
 commands['run']="flask run"
 commands['shell']="flask shell"
+commands['init-db']="flask init-db"
 
 
 if [ -v commands[$1] ]; 
@@ -18,6 +19,7 @@ then
 else
     echo "run:     run server"
     echo "shell:   run shell"
+    echo "init-db:   init-db"
 fi
 
 
