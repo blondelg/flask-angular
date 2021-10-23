@@ -16,12 +16,14 @@ class Config(object):
 
 
 class TestConfig(object):
+    TESTING = True
     SECRET_KEY = "#d#JCqTTW\nilK\\7m\x0bp#\tj~#H"
 
     # DB
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'test_app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # JWT
     JWT_EXPIRATION_TIME = 30
+
+
 

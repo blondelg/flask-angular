@@ -10,8 +10,7 @@ import jwt
 from app.utils import token_required
 
 
-class HelloWorld(Resource):
-    @token_required
+class Hello(Resource):
     def get(self):
         return {'hello': 'world'}
 

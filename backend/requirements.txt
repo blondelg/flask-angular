@@ -4,4 +4,4 @@ flask-migrate
 flask-shell-ipython
 flask-restful
 PyJWT
-pytest
+flask_unittest

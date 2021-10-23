@@ -1,31 +1,30 @@
+import flask_unittest
+from app import create_app
+from app.config import TestConfig
 import os
 import tempfile
 
-import pytest
-
-from app import create_app
-from app import init_db
 
 
-@pytest.fixture
-def client():
-    db_fd, db_path = tempfile.mkstemp()
-    app = create_app({'TESTING': True, 'DATABASE': db_path})
 
-    with app.test_client() as client:
-        with app.app_context():
-            init_db()
-        yield client
+class TestApi(flask_unittest.AppTestCase):
 
-    os.close(db_fd)
-    os.unlink(db_path)
+    def create_app(self):
+        self.config = TestConfig
+        self.config.db_fd, self.config.SQLALCHEMY_DATABASE_URI = tempfile.mkstemp()
 
-def test_test():
-    assert True is True
+        app = create_app(config_class=self.config)
+        yield app
 
-@pytest.mark.skip(reason="dev")
-def test_empty_db(client):
-    """Start with a blank database."""
+    def setUp(self, app):
+        # Perform set up before each test, using app
+        pass
+        
 
-    rv = client.get('/')
-    assert b'No entries here so far' in rv.data
+    def tearDown(self, app):
+        # Perform tear down after each test, using app
+        os.close(self.config.db_fd)
+        os.unlink(self.config.SQLALCHEMY_DATABASE_URI)
+
+    def test_test(self, app):
+        self.assertTrue(True)

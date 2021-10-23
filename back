@@ -11,7 +11,7 @@ declare -A commands
 commands['run']="flask run"
 commands['shell']="flask shell"
 commands['init-db']="flask init-db"
-commands['test']="pytest"
+commands['test']="python -m unittest"
 
 
 if [ -v commands[$1] ]; 
