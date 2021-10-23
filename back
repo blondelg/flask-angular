@@ -11,6 +11,7 @@ declare -A commands
 commands['run']="flask run"
 commands['shell']="flask shell"
 commands['init-db']="flask init-db"
+commands['test']="pytest"
 
 
 if [ -v commands[$1] ]; 
@@ -20,6 +21,7 @@ else
     echo "run:     run server"
     echo "shell:   run shell"
     echo "init-db:   init-db"
+    echo "test:   run tests"
 fi
 
 
